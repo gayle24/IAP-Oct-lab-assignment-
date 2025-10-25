@@ -6,7 +6,6 @@ class Product {
     public function __construct($db) {
         $this->conn = $db;
     }
-
     public function readAll() {
         $stmt = $this->conn->prepare("SELECT * FROM " . $this->table);
         $stmt->execute();
