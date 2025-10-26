@@ -1,10 +1,9 @@
 <?php
-include_once '../config/Database.php';
-include_once '../classes/User.php';
-include_once '../classes/Product.php';
+include_once '../config/database.php';
+include_once '../classes/user.php';
+include_once '../classes/product.php';
 
-$database = new Database();
-$db = $database->connect();
+$database = getDbConnection();
 
 $user = new User($db);
 $product = new Product($db);

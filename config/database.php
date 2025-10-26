@@ -1,21 +1,15 @@
 <?php
-class Database {
-    private $host = "localhost";
-    private $db_name = "oop_lab";
-    private $username = "root";
-    private $password = "";
-    public $conn;
+require_once '../vendor/autoload.php';
 
-    public function connect() {
-        $this->conn = null;
-        try {
-            $this->conn = new PDO("mysql:host=$this->host;dbname=$this->db_name", 
-                                  $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
-        return $this->conn;
-    }
+$dotenv = Dotenv\Dotenv::createImmutable('../');
+$dotenv->load();
+
+
+function getDbConnection() {
+    $dsn = 'mysql:host=localhost;dbname=php_2fa';
+    $username = $_ENV['db_name'];
+    $password = $_ENV['db_password'];
+ 
+    return new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 }
 ?>

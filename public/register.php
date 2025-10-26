@@ -2,19 +2,17 @@
 include_once '../config/Database.php';
 include_once '../classes/User.php';
 
-$database = new Database();
-$db = $database->connect();
+$db = getDbConnection();
 
 $user = new User($db);
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user->name = $_POST['name'];
-    $user->email = $_POST['email'];
+    $user->username = $_POST['username'] ?? '';
+    $user->email = $_POST['email'] ?? '';
     $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $user->code = rand(100000, 999999); // Mock 2FA code
 
     if($user->register()) {
-        echo "<div class='alert alert-success'>User registered. 2FA Code: {$user->code}</div>";
+        echo "<div class='alert alert-success'>User registered.</div>";
     } else {
         echo "<div class='alert alert-danger'>Registration failed.</div>";
     }
@@ -29,12 +27,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="p-4">
   <div class="container">
     <h2>User Registration</h2>
-    <form method="post">
-      <input class="form-control mb-2" name="name" placeholder="Name" required>
+    <form method="POST">
+      <input class="form-control mb-2" name="username" placeholder="username" required>
       <input class="form-control mb-2" type="email" name="email" placeholder="Email" required>
       <input class="form-control mb-2" type="password" name="password" placeholder="Password" required>
       <button class="btn btn-primary" type="submit">Register</button>
     </form>
+    <div class="signup">
+        <span class="signup">Already have an account?
+         <label  id="log-in"><a href="login.php">Login</a></label>
+        </span>
+      </div>
   </div>
 </body>
 </html>
